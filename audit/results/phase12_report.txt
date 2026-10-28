@@ -1,0 +1,50 @@
+================================================================================================
+UNSW-NB15: хронологічний спліт статті (Stime 0.70/0.85)
+контроль відтворення: AP(F0@500)=0.982439, AP(F1@500)=0.983854  (очікувано з експерименту B: 0.982439 / 0.983854)
+
+PHASE I (train partition):
+  C                    F                         H(F)    H(C)   H(C|F)      MI     NMI     rho
+  cve_ctx_service      service                 1.9093  2.1454   0.6542  1.4911  0.7810  0.3050
+  cve_ctx_service      (proto, dst port)       9.1445  2.1454   0.0000  2.1454  1.0000  0.0000
+  усі CTI-поля разом   (proto, dst port)       9.1445  2.1454   0.0000  2.1454  1.0000  0.0000
+
+PHASE II (gain-share, F1 @ fixed budget):
+  total CTI = 0.24%;  cve_ctx_service = 0.21%;  інші CTI = 0.03%
+  топ-5 ознак F0 (частка gain у F0 -> у F1):
+    sttl                          96.24% ->  45.35%
+    proto                          0.67% ->   0.34%
+    ct_state_ttl                   0.65% ->   0.27%
+    ct_srv_dst                     0.32% ->   0.47%
+    service                        0.23% ->   0.01%
+  топ-5 ознак F1:
+    sttl                          45.35%
+    Dintpkt                       33.81%
+    ct_dst_src_ltm                15.63%
+    ct_srv_src                     2.42%
+    Sintpkt                        0.83%
+================================================================================================
+CIC-IDS2017: виправлені таймстемпи, стратифікований часовий спліт (день×клас 70/15/15)
+контроль відтворення: AP(F0@500)=0.998869, AP(F1@500)=0.999402  (очікувано з експерименту B: 0.998869 / 0.999402)
+
+PHASE I (train partition):
+  C                    F                         H(F)    H(C)   H(C|F)      MI     NMI     rho
+  cve_ctx_service      protocol                0.9548  2.1829   1.2556  0.9273  0.9713  0.5752
+  cve_ctx_service      (protocol, dst port)    5.1899  2.1829   0.0000  2.1829  1.0000  0.0000
+  усі CTI-поля разом   (protocol, dst port)    5.1899  2.1829   0.0000  2.1829  1.0000  0.0000
+
+PHASE II (gain-share, F1 @ fixed budget):
+  total CTI = 58.69%;  cve_ctx_service = 55.58%;  інші CTI = 3.12%
+  топ-5 ознак F0 (частка gain у F0 -> у F1):
+    Bwd Packet Length Min         25.50% ->   0.00%
+    Init_Win_bytes_backward       19.37% ->  15.54%
+    Average Packet Size           12.51% ->   3.61%
+    Init_Win_bytes_forward         8.90% ->   3.02%
+    Bwd Packet Length Std          7.31% ->   2.21%
+  топ-5 ознак F1:
+    cve_ctx_service               55.58%
+    Init_Win_bytes_backward       15.54%
+    Average Packet Size            3.61%
+    Flow Bytes/s                   3.27%
+    Init_Win_bytes_forward         3.02%
+
+Час виконання: 8.8 хв
