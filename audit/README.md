@@ -2,7 +2,7 @@
 
 This folder accompanies the revised manuscript. It contains the code used to audit the
 initial Track B pipeline (Section 5.4) and to produce every Track B result reported under
-the valid, equal-budget protocol (Sections 5.2, 5.3 and 5.5).
+the valid, equal-budget protocol (Sections 5.2, 5.3, 5.5 and 5.6, and Appendix A).
 
 ## What changed relative to v1.0
 
@@ -38,6 +38,7 @@ audit/
 | `unsw_port_cti_controls.ipynb` | Port and placebo controls on UNSW-NB15; Table 13 |
 | `phase12_corrected.ipynb` | Phase I conditional entropies (Table 11); Phase II gain-share (Table 12) |
 | `expB_cti_beyond_port.ipynb` | Within-service CTI design; Tables 16–17; Figure 3 |
+| `revision_r1_checks.ipynb` | Round-1 revision checks in one run: verification of 101 frozen values of the paper; provenance of CTI values (Section 3.4); port→service mapping (Section 3.3, Table A2); availability and no-EPSS controls (Table 13); seven training seeds (Table 18); UNSW-NB15 alternative and cross-session splits (Table 19); per-class AP (Table A1). Report and JSON in `results/revision_r1/` |
 
 ## Fixed settings
 

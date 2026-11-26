@@ -1,5 +1,15 @@
 # Changelog
 
+## v2.1 — revision after the first review round (2026)
+
+### Added
+- `audit/notebooks/revision_r1_checks.ipynb`: one-run checks requested by the reviewers — verification that
+  101 frozen values of the paper are reproduced; provenance of CVE/EPSS/KEV values (CVE pools and KEV restricted
+  to the snapshot date; EPSS for CIC-IDS2017 taken retrospectively from the 2021-04-14 file); determinism and
+  coverage of the port→service mapping; CTI-availability and no-EPSS control models; seven training seeds;
+  UNSW-NB15 alternative chronological and cross-session splits; per-class AP.
+- `audit/results/revision_r1/`: report and JSON of that run.
+
 ## v2.0 — revised manuscript (2026)
 
 ### Added

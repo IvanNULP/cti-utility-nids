@@ -1,0 +1,928 @@
+
+====================================================================================================
+0. VERIFICATION OF THE FROZEN RESULTS OF THE PAPER (all later sections reuse these exact models)
+====================================================================================================
+   OK       UNSW-NB15    split size (train)                                         paper=     1,441,568  now=     1,441,568
+   OK       UNSW-NB15    split size (val)                                           paper=       308,915  now=       308,915
+   OK       UNSW-NB15    split size (test)                                          paper=       308,935  now=       308,935
+   OK       UNSW-NB15    scale_pos_weight                                           paper=     28.213500  now=     28.213472
+   OK       UNSW-NB15    attack share in test                                       paper=      0.082100  now=      0.082069
+   OK       UNSW-NB15    AP F0 (Tables 10, 13, 16)                                  paper=      0.982439  now=      0.982439
+   OK       UNSW-NB15    ROC-AUC F0 (Table 16)                                      paper=      0.998144  now=      0.998144
+   OK       UNSW-NB15    recall@FPR0.1% F0 (Tables 10, 16)                          paper=      0.802800  now=      0.802832
+   OK       UNSW-NB15    AP F1 (Tables 10, 13, 16)                                  paper=      0.983854  now=      0.983854
+   OK       UNSW-NB15    ROC-AUC F1 (Table 16)                                      paper=      0.998123  now=      0.998123
+   OK       UNSW-NB15    recall@FPR0.1% F1 (Tables 10, 16)                          paper=      0.821800  now=      0.821803
+   OK       UNSW-NB15    AP Pnum (Tables 10, 13, 16)                                paper=      0.985116  now=      0.985116
+   OK       UNSW-NB15    ROC-AUC Pnum (Table 16)                                    paper=      0.998132  now=      0.998132
+   OK       UNSW-NB15    recall@FPR0.1% Pnum (Tables 10, 16)                        paper=      0.841400  now=      0.841366
+   OK       UNSW-NB15    AP Pcat (Tables 10, 13, 16)                                paper=      0.985920  now=      0.985920
+   OK       UNSW-NB15    ROC-AUC Pcat (Table 16)                                    paper=      0.998390  now=      0.998390
+   OK       UNSW-NB15    recall@FPR0.1% Pcat (Tables 10, 16)                        paper=      0.849000  now=      0.848978
+   OK       UNSW-NB15    ΔAP F1 − F0 (Tables 10/13)                                 paper=      0.001415  now=      0.001415
+   OK       UNSW-NB15    CI low F1 − F0                                             paper=      0.000841  now=      0.000841
+   OK       UNSW-NB15    CI high F1 − F0                                            paper=      0.002120  now=      0.002120
+   OK       UNSW-NB15    ΔAP Pnum − F0 (Tables 10/13)                               paper=      0.002678  now=      0.002678
+   OK       UNSW-NB15    CI low Pnum − F0                                           paper=      0.001733  now=      0.001733
+   OK       UNSW-NB15    CI high Pnum − F0                                          paper=      0.003812  now=      0.003812
+   OK       UNSW-NB15    ΔAP F1 − Pnum (Tables 10/13)                               paper=     -0.001262  now=     -0.001262
+   OK       UNSW-NB15    CI low F1 − Pnum                                           paper=     -0.002097  now=     -0.002097
+   OK       UNSW-NB15    CI high F1 − Pnum                                          paper=     -0.000625  now=     -0.000625
+   OK       UNSW-NB15    ΔAP F1 − Pnum, Experiment B S5 (Table 17)                  paper=     -0.001262  now=     -0.001262
+   OK       UNSW-NB15    CI low F1 − Pnum, Experiment B S5 (Table 17)               paper=     -0.002121  now=     -0.002121
+   OK       UNSW-NB15    CI high F1 − Pnum, Experiment B S5 (Table 17)              paper=     -0.000510  now=     -0.000510
+   OK       UNSW-NB15    per-class ΔAP F1−F0 Exploits (Section 5.2)                 paper=      0.001552  now=      0.001552
+   OK       UNSW-NB15    per-class ΔAP F1−F0 Shellcode (Section 5.2)                paper=     -0.033535  now=     -0.033535
+   OK       UNSW-NB15    per-class ΔAP F1−F0 Generic (Section 5.2)                  paper=      0.001250  now=      0.001250
+   OK       UNSW-NB15    per-class ΔAP F1−F0 Reconnaissance (Section 5.2)           paper=      0.011259  now=      0.011259
+   OK       UNSW-NB15    per-class ΔAP F1−F0 DoS (Section 5.2)                      paper=      0.008956  now=      0.008956
+   OK       UNSW-NB15    per-class ΔAP F1−F0 Fuzzers (Section 5.2)                  paper=      0.026415  now=      0.026415
+   OK       UNSW-NB15    per-class ΔAP F1−F0 Analysis (Section 5.2)                 paper=      0.007749  now=      0.007749
+   OK       UNSW-NB15    per-class ΔAP F1−F0 Backdoor (Section 5.2)                 paper=      0.007389  now=      0.007389
+   OK       UNSW-NB15    per-class ΔAP F1−F0 Worms (Section 5.2)                    paper=      0.020737  now=      0.020737
+   OK       UNSW-NB15    Phase I H(F) cve_ctx_service | native (Table 11)           paper=      1.909300  now=      1.909280
+   OK       UNSW-NB15    Phase I H(C) cve_ctx_service | native                      paper=      2.145400  now=      2.145351
+   OK       UNSW-NB15    Phase I H(C|F) cve_ctx_service | native                    paper=      0.654200  now=      0.654239
+   OK       UNSW-NB15    Phase I H(F) cve_ctx_service | proto+port (Table 11)       paper=      9.144500  now=      9.144529
+   OK       UNSW-NB15    Phase I H(C) cve_ctx_service | proto+port                  paper=      2.145400  now=      2.145351
+   OK       UNSW-NB15    Phase I H(C|F) cve_ctx_service | proto+port                paper=      0.000000  now=      0.000000
+   OK       UNSW-NB15    Phase I H(F) all CTI | proto+port (Table 11)               paper=      9.144500  now=      9.144529
+   OK       UNSW-NB15    Phase I H(C) all CTI | proto+port                          paper=      2.145400  now=      2.145351
+   OK       UNSW-NB15    Phase I H(C|F) all CTI | proto+port                        paper=      0.000000  now=      0.000000
+   OK       UNSW-NB15    Phase II gain-share, all CTI in F1 (%) (Table 12)          paper=      0.240000  now=      0.243779
+   OK       UNSW-NB15    Phase II gain-share, cve_ctx_service in F1 (%)             paper=      0.210000  now=      0.210070
+   OK       UNSW-NB15    Phase II gain-share, sttl in F0 (%)                        paper=     96.240000  now=     96.240270
+   OK       CIC-IDS2017  split size (train)                                         paper=     1,953,816  now=     1,953,816
+   OK       CIC-IDS2017  split size (val)                                           paper=       391,055  now=       391,055
+   OK       CIC-IDS2017  split size (test)                                          paper=       482,806  now=       482,806
+   OK       CIC-IDS2017  scale_pos_weight                                           paper=      4.335700  now=      4.335686
+   OK       CIC-IDS2017  attack share in test                                       paper=      0.292300  now=      0.292316
+   OK       CIC-IDS2017  AP F0 (Tables 10, 13, 16)                                  paper=      0.998869  now=      0.998869
+   OK       CIC-IDS2017  ROC-AUC F0 (Table 16)                                      paper=      0.999402  now=      0.999402
+   OK       CIC-IDS2017  recall@FPR0.1% F0 (Tables 10, 16)                          paper=      0.977700  now=      0.977737
+   OK       CIC-IDS2017  AP F1 (Tables 10, 13, 16)                                  paper=      0.999402  now=      0.999402
+   OK       CIC-IDS2017  ROC-AUC F1 (Table 16)                                      paper=      0.999638  now=      0.999638
+   OK       CIC-IDS2017  recall@FPR0.1% F1 (Tables 10, 16)                          paper=      0.993400  now=      0.993410
+   OK       CIC-IDS2017  AP Pnum (Tables 10, 13, 16)                                paper=      0.999489  now=      0.999489
+   OK       CIC-IDS2017  ROC-AUC Pnum (Table 16)                                    paper=      0.999754  now=      0.999754
+   OK       CIC-IDS2017  recall@FPR0.1% Pnum (Tables 10, 16)                        paper=      0.992500  now=      0.992518
+   OK       CIC-IDS2017  AP Pcat (Tables 10, 13, 16)                                paper=      0.999562  now=      0.999562
+   OK       CIC-IDS2017  ROC-AUC Pcat (Table 16)                                    paper=      0.999800  now=      0.999800
+   OK       CIC-IDS2017  recall@FPR0.1% Pcat (Tables 10, 16)                        paper=      0.994200  now=      0.994225
+   OK       CIC-IDS2017  ΔAP F1 − F0 (Tables 10/13)                                 paper=      0.000533  now=      0.000533
+   OK       CIC-IDS2017  CI low F1 − F0                                             paper=      0.000183  now=      0.000183
+   OK       CIC-IDS2017  CI high F1 − F0                                            paper=      0.001988  now=      0.001988
+   OK       CIC-IDS2017  ΔAP F1 − Pnum (Tables 10/13)                               paper=     -0.000086  now=     -0.000086
+   OK       CIC-IDS2017  CI low F1 − Pnum                                           paper=     -0.000309  now=     -0.000309
+   OK       CIC-IDS2017  CI high F1 − Pnum                                          paper=      0.000041  now=      0.000041
+   OK       CIC-IDS2017  ΔAP Pnum − F0 (Tables 10/13)                               paper=      0.000619  now=      0.000619
+   OK       CIC-IDS2017  CI low Pnum − F0                                           paper=      0.000230  now=      0.000230
+   OK       CIC-IDS2017  CI high Pnum − F0                                          paper=      0.002030  now=      0.002030
+   OK       CIC-IDS2017  ΔAP F1 − Pnum, Experiment B S5 (Table 17)                  paper=     -0.000086  now=     -0.000086
+   OK       CIC-IDS2017  CI low F1 − Pnum, Experiment B S5 (Table 17)               paper=     -0.000302  now=     -0.000302
+   OK       CIC-IDS2017  CI high F1 − Pnum, Experiment B S5 (Table 17)              paper=      0.000036  now=      0.000036
+   OK       CIC-IDS2017  per-class ΔAP F1−F0 DoS Slowhttptest (Section 5.2)         paper=      0.179481  now=      0.179481
+   OK       CIC-IDS2017  per-class ΔAP F1−F0 DoS slowloris (Section 5.2)            paper=      0.082810  now=      0.082810
+   OK       CIC-IDS2017  per-class ΔAP F1−F0 Web Attack – Brute Force (Section 5.2) paper=      0.050032  now=      0.050032
+   OK       CIC-IDS2017  per-class ΔAP F1−F0 SSH-Patator (Section 5.2)              paper=      0.031811  now=      0.031811
+   OK       CIC-IDS2017  per-class ΔAP F1−F0 PortScan (Section 5.2)                 paper=     -0.000112  now=     -0.000112
+   OK       CIC-IDS2017  per-class ΔAP F1−F0 DoS Hulk (Section 5.2)                 paper=      0.001476  now=      0.001476
+   OK       CIC-IDS2017  per-class ΔAP F1−F0 DDoS (Section 5.2)                     paper=      0.000588  now=      0.000588
+   OK       CIC-IDS2017  per-class ΔAP F1−F0 DoS GoldenEye (Section 5.2)            paper=      0.007244  now=      0.007244
+   OK       CIC-IDS2017  per-class ΔAP F1−F0 FTP-Patator (Section 5.2)              paper=      0.001519  now=      0.001519
+   OK       CIC-IDS2017  per-class ΔAP F1−F0 Web Attack – XSS (Section 5.2)         paper=      0.013861  now=      0.013861
+   OK       CIC-IDS2017  Phase I H(F) cve_ctx_service | native (Table 11)           paper=      0.954800  now=      0.954788
+   OK       CIC-IDS2017  Phase I H(C) cve_ctx_service | native                      paper=      2.182900  now=      2.182922
+   OK       CIC-IDS2017  Phase I H(C|F) cve_ctx_service | native                    paper=      1.255600  now=      1.255580
+   OK       CIC-IDS2017  Phase I H(F) cve_ctx_service | proto+port (Table 11)       paper=      5.189900  now=      5.189931
+   OK       CIC-IDS2017  Phase I H(C) cve_ctx_service | proto+port                  paper=      2.182900  now=      2.182922
+   OK       CIC-IDS2017  Phase I H(C|F) cve_ctx_service | proto+port                paper=      0.000000  now=      0.000000
+   OK       CIC-IDS2017  Phase I H(F) all CTI | proto+port (Table 11)               paper=      5.189900  now=      5.189931
+   OK       CIC-IDS2017  Phase I H(C) all CTI | proto+port                          paper=      2.182900  now=      2.182922
+   OK       CIC-IDS2017  Phase I H(C|F) all CTI | proto+port                        paper=      0.000000  now=      0.000000
+   OK       CIC-IDS2017  Phase II gain-share, all CTI in F1 (%) (Table 12)          paper=     58.690000  now=     58.692271
+   OK       CIC-IDS2017  Phase II gain-share, cve_ctx_service in F1 (%)             paper=     55.580000  now=     55.576114
+   OK       CIC-IDS2017  Phase II gain-share, Bwd Packet Length Min in F0 (%)       paper=     25.500000  now=     25.495606
+
+   SUMMARY: 101/101 frozen values reproduced
+
+====================================================================================================
+A. PROVENANCE OF THE CTI VALUES (reviewers 2.2, 3.2)
+====================================================================================================
+A1. Files in the CTI folder:
+   attack/enterprise-attack.json                                     53.8 MB
+   capec/capec_1000.csv.zip                                           0.4 MB
+   capec/capec_latest.xml                                             3.8 MB
+   cve_forecast_dataset.parquet                                      64.7 MB
+   cve_master.parquet                                                72.8 MB
+   cwe/cwe_1000.csv.zip                                               0.6 MB
+   cwe/cwec_latest.xml.zip                                            2.0 MB
+   epss/epss_scores-2026-09-21.csv.gz                                 2.7 MB
+   epss/history/epss_scores-2021-04-14.csv.gz                         0.2 MB
+   epss/history/epss_scores-2021-05-01.csv.gz                         0.2 MB
+   epss/history/epss_scores-2021-06-01.csv.gz                         0.3 MB
+   epss/history/epss_scores-2021-07-01.csv.gz                         0.3 MB
+   epss/history/epss_scores-2021-08-01.csv.gz                         0.3 MB
+   epss/history/epss_scores-2021-09-01.csv.gz                         0.4 MB
+   epss/history/epss_scores-2021-10-01.csv.gz                         0.4 MB
+   epss/history/epss_scores-2021-11-01.csv.gz                         0.4 MB
+   epss/history/epss_scores-2021-12-01.csv.gz                         0.4 MB
+   epss/history/epss_scores-2022-01-01.csv.gz                         0.4 MB
+   epss/history/epss_scores-2022-02-01.csv.gz                         0.4 MB
+   epss/history/epss_scores-2022-03-01.csv.gz                         0.7 MB
+   epss/history/epss_scores-2022-04-01.csv.gz                         0.7 MB
+   epss/history/epss_scores-2022-05-01.csv.gz                         0.7 MB
+   epss/history/epss_scores-2022-06-01.csv.gz                         0.7 MB
+   epss/history/epss_scores-2022-07-01.csv.gz                         0.7 MB
+   epss/history/epss_scores-2022-08-01.csv.gz                         0.7 MB
+   epss/history/epss_scores-2022-09-01.csv.gz                         0.7 MB
+   epss/history/epss_scores-2022-10-01.csv.gz                         0.7 MB
+   epss/history/epss_scores-2022-11-01.csv.gz                         0.8 MB
+   epss/history/epss_scores-2022-12-01.csv.gz                         0.8 MB
+   epss/history/epss_scores-2023-01-01.csv.gz                         0.8 MB
+   epss/history/epss_scores-2023-02-01.csv.gz                         0.8 MB
+   epss/history/epss_scores-2023-03-01.csv.gz                         0.8 MB
+   epss/history/epss_scores-2023-04-01.csv.gz                         1.3 MB
+   epss/history/epss_scores-2023-05-01.csv.gz                         1.3 MB
+   epss/history/epss_scores-2023-06-01.csv.gz                         1.3 MB
+   epss/history/epss_scores-2023-07-01.csv.gz                         1.3 MB
+   epss/history/epss_scores-2023-08-01.csv.gz                         1.3 MB
+   epss/history/epss_scores-2023-09-01.csv.gz                         1.3 MB
+   epss/history/epss_scores-2023-10-01.csv.gz                         1.4 MB
+   epss/history/epss_scores-2023-11-01.csv.gz                         1.4 MB
+   epss/history/epss_scores-2023-12-01.csv.gz                         1.4 MB
+   epss/history/epss_scores-2024-01-01.csv.gz                         1.4 MB
+   epss/history/epss_scores-2024-02-01.csv.gz                         1.4 MB
+   epss/history/epss_scores-2024-03-01.csv.gz                         1.5 MB
+   epss/history/epss_scores-2024-04-01.csv.gz                         1.5 MB
+   epss/history/epss_scores-2024-05-01.csv.gz                         1.5 MB
+   epss/history/epss_scores-2024-06-01.csv.gz                         1.6 MB
+   epss/history/epss_scores-2024-07-01.csv.gz                         1.5 MB
+   epss/history/epss_scores-2024-08-01.csv.gz                         1.6 MB
+   epss/history/epss_scores-2024-09-01.csv.gz                         1.6 MB
+   epss/history/epss_scores-2024-10-01.csv.gz                         1.6 MB
+   epss/history/epss_scores-2024-11-01.csv.gz                         1.6 MB
+   epss/history/epss_scores-2025-01-01.csv.gz                         1.6 MB
+   epss/history/epss_scores-2025-02-01.csv.gz                         1.7 MB
+   epss/history/epss_scores-2025-03-01.csv.gz                         1.7 MB
+   epss/history/epss_scores-2025-04-01.csv.gz                         1.8 MB
+   epss/history/epss_scores-2025-05-01.csv.gz                         1.9 MB
+   epss/history/epss_scores-2025-06-01.csv.gz                         1.9 MB
+   epss/history/epss_scores-2025-07-01.csv.gz                         1.9 MB
+   epss/history/epss_scores-2025-08-01.csv.gz                         1.9 MB
+   epss/history/epss_scores-2025-09-01.csv.gz                         1.9 MB
+   epss/history/epss_scores-2025-10-01.csv.gz                         2.0 MB
+   epss/history/epss_scores-2025-11-01.csv.gz                         2.0 MB
+   epss/history/epss_scores-2025-12-01.csv.gz                         2.0 MB
+   epss/history/epss_scores-2026-01-01.csv.gz                         2.1 MB
+   epss/history/epss_scores-2026-02-01.csv.gz                         2.1 MB
+   epss/history/epss_scores-2026-03-01.csv.gz                         2.1 MB
+   epss/history/epss_scores-2026-04-01.csv.gz                         2.2 MB
+   epss/history/epss_scores-2026-05-01.csv.gz                         2.2 MB
+   epss/history/epss_scores-2026-06-01.csv.gz                         2.2 MB
+   epss/history/epss_scores-2026-07-01.csv.gz                         2.4 MB
+   epss/history/epss_scores-2026-08-01.csv.gz                         2.5 MB
+   epss/history/epss_scores-2026-09-01.csv.gz                         2.6 MB
+   exploitdb/files_exploits.csv                                      10.2 MB
+   kev/known_exploited_vulnerabilities.csv                            1.0 MB
+   manifest.json                                                      0.0 MB
+   nvd/pages/page_0000000.json                                        4.3 MB
+   nvd/pages/page_0002000.json                                        5.2 MB
+   nvd/pages/page_0004000.json                                        6.4 MB
+   nvd/pages/page_0006000.json                                        6.5 MB
+   nvd/pages/page_0008000.json                                        8.3 MB
+   nvd/pages/page_0010000.json                                        7.9 MB
+   nvd/pages/page_0012000.json                                        7.2 MB
+   nvd/pages/page_0014000.json                                        7.8 MB
+   nvd/pages/page_0016000.json                                        8.0 MB
+   nvd/pages/page_0018000.json                                        8.5 MB
+   nvd/pages/page_0020000.json                                        8.2 MB
+   nvd/pages/page_0022000.json                                        8.0 MB
+   nvd/pages/page_0024000.json                                        8.1 MB
+   nvd/pages/page_0026000.json                                        8.6 MB
+   nvd/pages/page_0028000.json                                        8.5 MB
+   nvd/pages/page_0030000.json                                        9.2 MB
+   nvd/pages/page_0032000.json                                       10.6 MB
+   nvd/pages/page_0034000.json                                        9.5 MB
+   nvd/pages/page_0036000.json                                       11.9 MB
+   nvd/pages/page_0038000.json                                       12.2 MB
+   nvd/pages/page_0040000.json                                       11.3 MB
+   nvd/pages/page_0042000.json                                       12.5 MB
+   nvd/pages/page_0044000.json                                       16.3 MB
+   nvd/pages/page_0046000.json                                       15.5 MB
+   nvd/pages/page_0048000.json                                       12.0 MB
+   nvd/pages/page_0050000.json                                       14.4 MB
+   nvd/pages/page_0052000.json                                       13.8 MB
+   nvd/pages/page_0054000.json                                       15.4 MB
+   nvd/pages/page_0056000.json                                       13.4 MB
+   nvd/pages/page_0058000.json                                       12.9 MB
+   nvd/pages/page_0060000.json                                       10.7 MB
+   nvd/pages/page_0062000.json                                       10.0 MB
+   nvd/pages/page_0064000.json                                        8.2 MB
+   nvd/pages/page_0066000.json                                        8.4 MB
+   nvd/pages/page_0068000.json                                        9.5 MB
+   nvd/pages/page_0070000.json                                        8.9 MB
+   nvd/pages/page_0072000.json                                        8.8 MB
+   nvd/pages/page_0074000.json                                       10.9 MB
+   nvd/pages/page_0076000.json                                       11.9 MB
+   nvd/pages/page_0078000.json                                       10.4 MB
+   nvd/pages/page_0080000.json                                        9.4 MB
+   nvd/pages/page_0082000.json                                        8.2 MB
+   nvd/pages/page_0084000.json                                        9.1 MB
+   nvd/pages/page_0086000.json                                        2.1 MB
+   nvd/pages/page_0088000.json                                        3.0 MB
+   nvd/pages/page_0090000.json                                        8.6 MB
+   nvd/pages/page_0092000.json                                        9.5 MB
+   nvd/pages/page_0094000.json                                        9.1 MB
+   nvd/pages/page_0096000.json                                        8.8 MB
+   nvd/pages/page_0098000.json                                        7.8 MB
+   nvd/pages/page_0100000.json                                        8.4 MB
+   nvd/pages/page_0102000.json                                        5.0 MB
+   nvd/pages/page_0104000.json                                       11.1 MB
+   nvd/pages/page_0106000.json                                        7.7 MB
+   nvd/pages/page_0108000.json                                       10.2 MB
+   nvd/pages/page_0110000.json                                        9.1 MB
+   nvd/pages/page_0112000.json                                        8.5 MB
+   nvd/pages/page_0114000.json                                        8.7 MB
+   nvd/pages/page_0116000.json                                        8.2 MB
+   nvd/pages/page_0118000.json                                        6.4 MB
+   nvd/pages/page_0120000.json                                        9.4 MB
+   nvd/pages/page_0122000.json                                       10.5 MB
+   nvd/pages/page_0124000.json                                        9.1 MB
+   nvd/pages/page_0126000.json                                        9.5 MB
+   nvd/pages/page_0128000.json                                        8.0 MB
+   nvd/pages/page_0130000.json                                        9.6 MB
+   nvd/pages/page_0132000.json                                        9.9 MB
+   nvd/pages/page_0134000.json                                        8.9 MB
+   nvd/pages/page_0136000.json                                        8.9 MB
+   nvd/pages/page_0138000.json                                        9.4 MB
+   nvd/pages/page_0140000.json                                        9.6 MB
+   nvd/pages/page_0142000.json                                       11.1 MB
+   nvd/pages/page_0144000.json                                       11.5 MB
+   nvd/pages/page_0146000.json                                        9.9 MB
+   nvd/pages/page_0148000.json                                       10.6 MB
+   nvd/pages/page_0150000.json                                       10.1 MB
+   nvd/pages/page_0152000.json                                        9.5 MB
+   nvd/pages/page_0154000.json                                        7.6 MB
+   nvd/pages/page_0156000.json                                       10.1 MB
+   nvd/pages/page_0158000.json                                       15.2 MB
+   nvd/pages/page_0160000.json                                       12.0 MB
+   nvd/pages/page_0162000.json                                       11.9 MB
+   nvd/pages/page_0164000.json                                       11.5 MB
+   nvd/pages/page_0166000.json                                       10.2 MB
+   nvd/pages/page_0168000.json                                        8.9 MB
+   nvd/pages/page_0170000.json                                       10.7 MB
+   nvd/pages/page_0172000.json                                       12.8 MB
+   nvd/pages/page_0174000.json                                        8.9 MB
+   nvd/pages/page_0176000.json                                        9.4 MB
+   nvd/pages/page_0178000.json                                        9.3 MB
+   nvd/pages/page_0180000.json                                       12.6 MB
+   nvd/pages/page_0182000.json                                        8.7 MB
+   nvd/pages/page_0184000.json                                       10.4 MB
+   nvd/pages/page_0186000.json                                       11.0 MB
+   nvd/pages/page_0188000.json                                        9.9 MB
+   nvd/pages/page_0190000.json                                        7.8 MB
+   nvd/pages/page_0192000.json                                        7.3 MB
+   nvd/pages/page_0194000.json                                        9.5 MB
+   nvd/pages/page_0196000.json                                        9.9 MB
+   nvd/pages/page_0198000.json                                       11.4 MB
+   nvd/pages/page_0200000.json                                       10.1 MB
+   nvd/pages/page_0202000.json                                        7.0 MB
+   nvd/pages/page_0204000.json                                       10.1 MB
+   nvd/pages/page_0206000.json                                       11.4 MB
+   nvd/pages/page_0208000.json                                        8.5 MB
+   nvd/pages/page_0210000.json                                        6.9 MB
+   nvd/pages/page_0212000.json                                       10.3 MB
+   nvd/pages/page_0214000.json                                        9.5 MB
+   nvd/pages/page_0216000.json                                       12.3 MB
+   nvd/pages/page_0218000.json                                       14.2 MB
+   nvd/pages/page_0220000.json                                        9.6 MB
+   nvd/pages/page_0222000.json                                       10.4 MB
+   nvd/pages/page_0224000.json                                        8.2 MB
+   nvd/pages/page_0226000.json                                       11.3 MB
+   nvd/pages/page_0228000.json                                       10.3 MB
+   nvd/pages/page_0230000.json                                       10.2 MB
+   nvd/pages/page_0232000.json                                       11.2 MB
+   nvd/pages/page_0234000.json                                       10.0 MB
+   nvd/pages/page_0236000.json                                       10.6 MB
+   nvd/pages/page_0238000.json                                        9.9 MB
+   nvd/pages/page_0240000.json                                       11.4 MB
+   nvd/pages/page_0242000.json                                       11.0 MB
+   nvd/pages/page_0244000.json                                        8.9 MB
+   nvd/pages/page_0246000.json                                        9.2 MB
+   nvd/pages/page_0248000.json                                        9.8 MB
+   nvd/pages/page_0250000.json                                       11.3 MB
+   nvd/pages/page_0252000.json                                        9.0 MB
+   nvd/pages/page_0254000.json                                       12.2 MB
+   nvd/pages/page_0256000.json                                       10.2 MB
+   nvd/pages/page_0258000.json                                       13.7 MB
+   nvd/pages/page_0260000.json                                       12.3 MB
+   nvd/pages/page_0262000.json                                       10.4 MB
+   nvd/pages/page_0264000.json                                        9.9 MB
+   nvd/pages/page_0266000.json                                       12.4 MB
+   nvd/pages/page_0268000.json                                       10.6 MB
+   nvd/pages/page_0270000.json                                        8.7 MB
+   nvd/pages/page_0272000.json                                        6.9 MB
+   nvd/pages/page_0274000.json                                        8.4 MB
+   nvd/pages/page_0276000.json                                        7.7 MB
+   nvd/pages/page_0278000.json                                        8.3 MB
+   nvd/pages/page_0280000.json                                       10.3 MB
+   nvd/pages/page_0282000.json                                       11.4 MB
+   nvd/pages/page_0284000.json                                        7.4 MB
+   nvd/pages/page_0286000.json                                        6.7 MB
+   nvd/pages/page_0288000.json                                        9.8 MB
+   nvd/pages/page_0290000.json                                        7.5 MB
+   nvd/pages/page_0292000.json                                       10.9 MB
+   nvd/pages/page_0294000.json                                        6.9 MB
+   nvd/pages/page_0296000.json                                        8.6 MB
+   nvd/pages/page_0298000.json                                        9.8 MB
+   nvd/pages/page_0300000.json                                       10.9 MB
+   nvd/pages/page_0302000.json                                        8.0 MB
+   nvd/pages/page_0304000.json                                        9.6 MB
+   nvd/pages/page_0306000.json                                        8.0 MB
+   nvd/pages/page_0308000.json                                        8.5 MB
+   nvd/pages/page_0310000.json                                        9.0 MB
+   nvd/pages/page_0312000.json                                        9.1 MB
+   nvd/pages/page_0314000.json                                        7.4 MB
+   nvd/pages/page_0316000.json                                        6.9 MB
+   nvd/pages/page_0318000.json                                        6.8 MB
+   nvd/pages/page_0320000.json                                        7.4 MB
+   nvd/pages/page_0322000.json                                        7.3 MB
+   nvd/pages/page_0324000.json                                        6.0 MB
+   nvd/pages/page_0326000.json                                       10.7 MB
+   nvd/pages/page_0328000.json                                        7.8 MB
+   nvd/pages/page_0330000.json                                       11.4 MB
+   nvd/pages/page_0332000.json                                        7.6 MB
+   nvd/pages/page_0334000.json                                       10.7 MB
+   nvd/pages/page_0336000.json                                        9.9 MB
+   nvd/pages/page_0338000.json                                       10.1 MB
+   nvd/pages/page_0340000.json                                        9.4 MB
+   nvd/pages/page_0342000.json                                        9.8 MB
+   nvd/pages/page_0344000.json                                        8.8 MB
+   nvd/pages/page_0346000.json                                        9.9 MB
+   nvd/pages/page_0348000.json                                        9.6 MB
+   nvd/pages/page_0350000.json                                        9.3 MB
+   nvd/pages/page_0352000.json                                        9.3 MB
+   nvd/pages/page_0354000.json                                        9.4 MB
+   nvd/pages/page_0356000.json                                        9.3 MB
+   nvd/pages/page_0358000.json                                        7.0 MB
+   nvd/pages/page_0360000.json                                        7.9 MB
+   nvd/pages/page_0362000.json                                        7.0 MB
+   nvd/pages/page_0364000.json                                        8.8 MB
+   nvd/pages/page_0366000.json                                        7.8 MB
+   nvd/pages/page_0368000.json                                        5.5 MB
+   nvd/pages/page_0370000.json                                        6.8 MB
+   nvd/pages/page_0372000.json                                        7.6 MB
+   nvd/pages/page_0374000.json                                        8.9 MB
+   nvd/pages/page_0376000.json                                        6.8 MB
+   nvd/pages/page_0378000.json                                        6.0 MB
+   nvd/pages/page_0380000.json                                        6.5 MB
+   nvd/pages/page_0382000.json                                        5.5 MB
+   nvd/pages/page_0384000.json                                        7.2 MB
+   nvd/pages/page_0386000.json                                        8.1 MB
+   nvd/pages/page_0388000.json                                        7.8 MB
+   nvd/pages/page_0390000.json                                        6.8 MB
+   nvd/pages/page_0392000.json                                        6.2 MB
+   nvd/pages/page_0394000.json                                        5.6 MB
+   results/step4a4_b2s_model_h180.txt                                 0.0 MB
+   results/step4a4_baseline_summary_h180.csv                          0.0 MB
+   results/step4a4_full_report_h180.md                                0.0 MB
+   results/step4a4_full_report_h180.xlsx                              0.0 MB
+   results/step4a4_main_metrics_h180.csv                              0.0 MB
+   results/step4a4_topk_metrics_h180.csv                              0.0 MB
+
+A2. /srv/ids_research/data/cti/cve_master.parquet
+   rows = 395,739; columns = 17
+   cve_id                                   str              non-null=100.0%
+   published                                datetime64[us]   non-null=100.0%  min=1988-10-01  max=2026-09-21
+   last_modified                            str              non-null=100.0%  min=2023-11-07  max=2026-09-21
+   vuln_status                              str              non-null=100.0%
+   description                              str              non-null=100.0%
+   cvss_version                             str              non-null= 76.4%
+   cvss_score                               float64          non-null= 76.4%  min=0  max=10
+   cvss_severity                            str              non-null= 76.4%
+   cvss_vector                              str              non-null= 76.4%
+   cwe_ids                                  object           non-null=100.0%
+   products                                 object           non-null=100.0%
+   epss                                     float64          non-null= 95.3%  min=0.00047  max=1
+   epss_percentile                          float64          non-null= 95.3%  min=0  max=1
+   kev_date_added                           str              non-null=  0.4%  min=2021-11-03  max=2026-09-18
+   kev_ransomware                           str              non-null=  0.4%
+   in_kev                                   bool             non-null=100.0%  min=0  max=1
+   has_public_exploit                       bool             non-null=100.0%  min=0  max=1
+   publication column used: published
+   CVEs published AFTER the UNSW-NB15 snapshot (2015-01-22): 327,421 (82.7% of the corpus)
+   CVEs published AFTER the CIC-IDS2017 snapshot (2017-07-03): 304,505 (76.9% of the corpus)
+   CVEs published before EPSS history began (2021-04-14): 161,258
+
+A3. Code lines that define the snapshot and the EPSS/pool fields (notebooks and scripts on the server):
+   --- ~/notebooks/2 article/cic_asparsed_same_budget.ipynb  (2 matching lines)
+         21: CVE_CTX = ['cve_ctx_service','cve_ctx_pool_size','cve_ctx_n_epss','cve_ctx_epss_coverage',
+         22: 'cve_ctx_service_max_epss','cve_ctx_n_generic_os_matches','cve_ctx_n_specific_product_matches']
+   --- ~/notebooks/2 article/cic_control_experiments (5).ipynb  (3 matching lines)
+         36: CVE_CTX = ['cve_ctx_service','cve_ctx_pool_size','cve_ctx_n_epss','cve_ctx_epss_coverage',
+         37: 'cve_ctx_service_max_epss','cve_ctx_n_generic_os_matches','cve_ctx_n_specific_product_matches']
+         91: # 2. Той самий спліт-протокол, що й у статті (quantile 0.70/0.85, snap до найближчого
+   --- ~/notebooks/2 article/cic_control_experiments (6).ipynb  (3 matching lines)
+         36: CVE_CTX = ['cve_ctx_service','cve_ctx_pool_size','cve_ctx_n_epss','cve_ctx_epss_coverage',
+         37: 'cve_ctx_service_max_epss','cve_ctx_n_generic_os_matches','cve_ctx_n_specific_product_matches']
+         91: # 2. Той самий спліт-протокол, що й у статті (quantile 0.70/0.85, snap до найближчого
+   --- ~/notebooks/2 article/cic_stratified_temporal.ipynb  (2 matching lines)
+         22: CVE_CTX = ['cve_ctx_service','cve_ctx_pool_size','cve_ctx_n_epss','cve_ctx_epss_coverage',
+         23: 'cve_ctx_service_max_epss','cve_ctx_n_generic_os_matches','cve_ctx_n_specific_product_matches']
+   --- ~/notebooks/2 article/expB_cti_beyond_port.ipynb  (3 matching lines)
+         19: CTX_UNSW = ['cve_ctx_service','cve_ctx_pool_size','cve_ctx_epss_coverage',
+         35: CTX_CIC = ['cve_ctx_service','cve_ctx_pool_size','cve_ctx_n_epss','cve_ctx_epss_coverage',
+         36: 'cve_ctx_service_max_epss','cve_ctx_n_generic_os_matches','cve_ctx_n_specific_product_matches']
+   --- ~/notebooks/2 article/phase12_corrected.ipynb  (3 matching lines)
+         19: CTX_UNSW = ['cve_ctx_service','cve_ctx_pool_size','cve_ctx_epss_coverage',
+         35: CTX_CIC = ['cve_ctx_service','cve_ctx_pool_size','cve_ctx_n_epss','cve_ctx_epss_coverage',
+         36: 'cve_ctx_service_max_epss','cve_ctx_n_generic_os_matches','cve_ctx_n_specific_product_matches']
+   --- ~/notebooks/2 article/release/code/step3_service_cve_mapping.ipynb  (48 matching lines)
+          8: master["published"] = pd.to_datetime(master["published"], errors="coerce")
+         13: snaps = sorted((CTI_DIR / "epss" / "history").glob("epss_scores-*.csv.gz"))
+         14: snap_dates = [date.fromisoformat(p.name[12:22]) for p in snaps]
+         28: i = bisect.bisect_right(snap_dates, d) - 1
+         38: raw = pd.read_csv(snaps[i], comment="#")
+         46: print(f"  ⚠ {snaps[i].name}: немає колонки 'percentile' у цьому знімку EPSS "
+         49: ver = re.search(r"model_version:(v[\d.]+)", first_line_gz(snaps[i]))
+         50: _epss_cache[i] = (df, snap_dates[i], ver.group(1) if ver else "v1?")
+        185: def build_service_pool(service, product_tokens, snapshot_date, top_n=20):
+        200: key = (service, tuple(product_tokens), snapshot_date, top_n)
+        207: result = dict(service=service, n_cve=0, n_epss=0, epss_coverage=None, epss_available=False,
+        209: top_cve=[], epss_snapshot_used=None, epss_model=None, epss_is_retrospective=None)
+        226: snap_ts = pd.Timestamp(snapshot_date)
+        227: pool = master[mask & (master["published"].isna() | (master["published"] <= snap_ts))]
+        235: epss_df, used_date, ver, epss_is_retro = epss_at(snapshot_date)
+        240: # KEV — ЛИШЕ якщо дата включення в KEV сама не пізніша за snapshot_date (усуває
+        242: kev_valid = pool["kev_date_added"].notna() & (pool["kev_date_added"] <= snap_ts)
+        245: n_epss = int(pool["epss"].notna().sum())
+        250: n_epss=n_epss,
+        251: epss_coverage=(n_epss / n_cve) if n_cve else None,   # частка CVE в пулі, для яких EPSS реально є
+        252: epss_available=n_epss > 0,           # чи є в пулі ХОЧА Б ОДНА CVE з EPSS-оцінкою
+        258: epss_snapshot_used=used_date,
+        265: # 0 тут може бути ЛЕГІТИМНИМ (жодна відповідна CVE не опублікована до snapshot_date —
+        266: # темпоральний фільтр коректно спрацював, як для rpcbind на даті CIC-IDS2017 2017-07-03,
+        270: print(f"  ℹ сервіс '{service}': 0 CVE у пулі на дату {snapshot_date} для токенів {product_tokens} "
+        280: cov = f"{r['epss_coverage']:.1%}" if r["epss_coverage"] is not None else "—"
+        281: print(f"port={port:5d} service={svc:6s} n_cve={r['n_cve']:5d} n_epss={r['n_epss']:5d} "
+        289: # а не хоста чи конкретного flow (cve_ctx_service_max_epss, cve_ctx_service_in_kev) —
+        294: # в пулі (epss_available) І дата НЕ ретроспективна (тобто EPSS реально існував на snapshot_date,
+        298: def attach_cve_context(df, port_col, proto_col, snapshot_date, top_n=20):
+   --- ~/notebooks/2 article/step3_service_cve_mapping.ipynb  (48 matching lines)
+          8: master["published"] = pd.to_datetime(master["published"], errors="coerce")
+         13: snaps = sorted((CTI_DIR / "epss" / "history").glob("epss_scores-*.csv.gz"))
+         14: snap_dates = [date.fromisoformat(p.name[12:22]) for p in snaps]
+         28: i = bisect.bisect_right(snap_dates, d) - 1
+         38: raw = pd.read_csv(snaps[i], comment="#")
+         46: print(f"  ⚠ {snaps[i].name}: немає колонки 'percentile' у цьому знімку EPSS "
+         49: ver = re.search(r"model_version:(v[\d.]+)", first_line_gz(snaps[i]))
+         50: _epss_cache[i] = (df, snap_dates[i], ver.group(1) if ver else "v1?")
+        185: def build_service_pool(service, product_tokens, snapshot_date, top_n=20):
+        200: key = (service, tuple(product_tokens), snapshot_date, top_n)
+        207: result = dict(service=service, n_cve=0, n_epss=0, epss_coverage=None, epss_available=False,
+        209: top_cve=[], epss_snapshot_used=None, epss_model=None, epss_is_retrospective=None)
+        226: snap_ts = pd.Timestamp(snapshot_date)
+        227: pool = master[mask & (master["published"].isna() | (master["published"] <= snap_ts))]
+        235: epss_df, used_date, ver, epss_is_retro = epss_at(snapshot_date)
+        240: # KEV — ЛИШЕ якщо дата включення в KEV сама не пізніша за snapshot_date (усуває
+        242: kev_valid = pool["kev_date_added"].notna() & (pool["kev_date_added"] <= snap_ts)
+        245: n_epss = int(pool["epss"].notna().sum())
+        250: n_epss=n_epss,
+        251: epss_coverage=(n_epss / n_cve) if n_cve else None,   # частка CVE в пулі, для яких EPSS реально є
+        252: epss_available=n_epss > 0,           # чи є в пулі ХОЧА Б ОДНА CVE з EPSS-оцінкою
+        258: epss_snapshot_used=used_date,
+        265: # 0 тут може бути ЛЕГІТИМНИМ (жодна відповідна CVE не опублікована до snapshot_date —
+        266: # темпоральний фільтр коректно спрацював, як для rpcbind на даті CIC-IDS2017 2017-07-03,
+        270: print(f"  ℹ сервіс '{service}': 0 CVE у пулі на дату {snapshot_date} для токенів {product_tokens} "
+        280: cov = f"{r['epss_coverage']:.1%}" if r["epss_coverage"] is not None else "—"
+        281: print(f"port={port:5d} service={svc:6s} n_cve={r['n_cve']:5d} n_epss={r['n_epss']:5d} "
+        289: # а не хоста чи конкретного flow (cve_ctx_service_max_epss, cve_ctx_service_in_kev) —
+        294: # в пулі (epss_available) І дата НЕ ретроспективна (тобто EPSS реально існував на snapshot_date,
+        298: def attach_cve_context(df, port_col, proto_col, snapshot_date, top_n=20):
+   --- ~/notebooks/2 article/step5c1_flow_dataset_audit.ipynb  (4 matching lines)
+         39: # ---------- 2. Пошук реального per-flow часового поля (не snapshot_date з CVE-контексту) ----------
+        105: "CTI/service context": ["cve_ctx_service", "cve_ctx_pool_size", "cve_ctx_context_available"],
+        106: "EPSS context": ["cve_ctx_n_epss", "cve_ctx_epss_coverage", "cve_ctx_epss_available",
+        107: "cve_ctx_epss_is_retrospective", "cve_ctx_use_epss", "cve_ctx_service_max_epss"],
+   --- ~/notebooks/2 article/step5c2_dedup_and_split_spec.ipynb  (2 matching lines)
+        126: "cve_ctx_service", "cve_ctx_pool_size", "cve_ctx_n_epss", "cve_ctx_epss_coverage",
+        127: "cve_ctx_service_max_epss", "cve_ctx_n_generic_os_matches",
+   --- ~/notebooks/2 article/step5d2_f0_f1_baseline.ipynb  (3 matching lines)
+         41: f1_additions=['cve_ctx_service', 'cve_ctx_pool_size', 'cve_ctx_n_epss', 'cve_ctx_epss_coverage',
+         42: 'cve_ctx_service_max_epss', 'cve_ctx_n_generic_os_matches', 'cve_ctx_n_specific_product_matches'],
+         57: f1_additions=['cve_ctx_service', 'cve_ctx_pool_size', 'cve_ctx_epss_coverage',
+   --- ~/notebooks/2 article/step5d2b_results_independent_audit.ipynb  (3 matching lines)
+        323: "cve_ctx_service", "cve_ctx_pool_size", "cve_ctx_n_epss", "cve_ctx_epss_coverage",
+        324: "cve_ctx_service_max_epss", "cve_ctx_n_generic_os_matches", "cve_ctx_n_specific_product_matches",
+        327: "cve_ctx_service", "cve_ctx_pool_size", "cve_ctx_epss_coverage",
+   --- ~/notebooks/2 article/step5d2c_unsw_forensic_diagnostic.ipynb  (1 matching lines)
+        102: "cve_ctx_service", "cve_ctx_pool_size", "cve_ctx_epss_coverage",
+   --- ~/notebooks/2 article/step5d2f_unsw_f1_feature_order_confirmation.ipynb  (1 matching lines)
+         23: 'cve_ctx_service', 'cve_ctx_pool_size', 'cve_ctx_epss_coverage',
+   --- ~/notebooks/2 article/step5e2_feature_attribution.ipynb  (3 matching lines)
+         75: "cve_ctx_service", "cve_ctx_pool_size", "cve_ctx_n_epss", "cve_ctx_epss_coverage",
+         76: "cve_ctx_service_max_epss", "cve_ctx_n_generic_os_matches", "cve_ctx_n_specific_product_matches",
+         79: "cve_ctx_service", "cve_ctx_pool_size", "cve_ctx_epss_coverage",
+
+A4. UNSW-NB15: CTI values per service (snapshot 2015-01-22); top 30 services by flow count
+                      flows  attack_share  cve_ctx_pool_size  cve_ctx_context_available  cve_ctx_n_epss  cve_ctx_epss_coverage  cve_ctx_epss_available  cve_ctx_epss_is_retrospective  cve_ctx_use_epss  cve_ctx_service_max_epss  cve_ctx_service_in_kev  cve_ctx_n_generic_os_matches  cve_ctx_n_specific_product_matches
+   cve_ctx_service                                                                                                                                                                                                                                                                                                         
+   other            1092740        0.0281                  0                      False               0                    NaN                   False                            NaN             False                       NaN                   False                             0                                   0
+   dns               402853        0.0506                106                       True               0                    0.0                   False                            NaN             False                       NaN                   False                             0                                 299
+   http              218420        0.0877                656                       True               0                    0.0                   False                            NaN             False                       NaN                   False                             0                                1441
+   rpcbind            92049        0.1034                  0                      False               0                    NaN                   False                            NaN             False                       NaN                   False                             0                                   4
+   smtp               86026        0.0597                149                       True               0                    0.0                   False                            NaN             False                       NaN                   False                             0                                 400
+   ssh                49437        0.0004                 72                       True               0                    0.0                   False                            NaN             False                       NaN                   False                             0                                 137
+   imap               49164        0.0358                 98                       True               0                    0.0                   False                            NaN             False                       NaN                   False                             0                                 330
+   ftp                46446        0.0449                 46                       True               0                    0.0                   False                            NaN             False                       NaN                   False                             0                                  77
+   arp                 6658        0.0000                  0                      False               0                    NaN                   False                            NaN             False                       NaN                   False                             0                                   0
+   smb                 6260        0.8361               1052                       True               0                    0.0                   False                            NaN             False                       NaN                   False                         10321                                 216
+   syslog              3524        0.5207                 12                       True               0                    0.0                   False                            NaN             False                       NaN                   False                             0                                  26
+   pop3                1627        0.9975                 98                       True               0                    0.0                   False                            NaN             False                       NaN                   False                             0                                 330
+   msrpc               1395        0.4401                963                       True               0                    0.0                   False                            NaN             False                       NaN                   False                         10321                                   0
+   mysql                958        0.4259                316                       True               0                    0.0                   False                            NaN             False                       NaN                   False                             0                                1434
+   icmp                 498        0.0000                  0                      False               0                    NaN                   False                            NaN             False                       NaN                   False                             0                                   0
+   http-alt             426        0.9718                372                       True               0                    0.0                   False                            NaN             False                       NaN                   False                             0                                 780
+   netbios              266        0.5902               1052                       True               0                    0.0                   False                            NaN             False                       NaN                   False                         10321                                 216
+   telnet               155        1.0000                  6                       True               0                    0.0                   False                            NaN             False                       NaN                   False                             0                                  49
+   ldap                 143        1.0000                 32                       True               0                    0.0                   False                            NaN             False                       NaN                   False                             0                                  75
+   https                125        1.0000                365                       True               0                    0.0                   False                            NaN             False                       NaN                   False                             0                                 805
+   snmp                 103        0.9903                981                       True               0                    0.0                   False                            NaN             False                       NaN                   False                         10321                                  35
+   mssql                 38        0.5000                 74                       True               0                    0.0                   False                            NaN             False                       NaN                   False                             0                                 110
+   nfs                   34        0.6471               1822                       True               0                    0.0                   False                            NaN             False                       NaN                   False                             0                               19317
+   rdp                   32        0.4375                  4                       True               0                    0.0                   False                            NaN             False                       NaN                   False                             0                                  36
+   postgresql            16        0.4375                 83                       True               0                    0.0                   False                            NaN             False                       NaN                   False                             0                                 210
+   ntp                   14        1.0000                 15                       True               0                    0.0                   False                            NaN             False                       NaN                   False                             0                                 110
+   mdns                  10        0.0000                 10                       True               0                    0.0                   False                            NaN             False                       NaN                   False                             0                                  27
+   imaps                  1        0.0000                 98                       True               0                    0.0                   False                            NaN             False                       NaN                   False                             0                                 330
+   max distinct values within a service: cve_ctx_pool_size=1, cve_ctx_context_available=1, cve_ctx_n_epss=1, cve_ctx_epss_coverage=1, cve_ctx_epss_available=1, cve_ctx_epss_is_retrospective=1, cve_ctx_use_epss=1, cve_ctx_service_max_epss=1, cve_ctx_service_in_kev=1, cve_ctx_n_generic_os_matches=1, cve_ctx_n_specific_product_matches=1
+
+A4. CIC-IDS2017: CTI values per service (snapshot 2017-07-03); top 30 services by flow count
+                     flows  attack_share  cve_ctx_pool_size  cve_ctx_context_available  cve_ctx_n_epss  cve_ctx_epss_coverage  cve_ctx_epss_available  cve_ctx_epss_is_retrospective  cve_ctx_use_epss  cve_ctx_service_max_epss  cve_ctx_service_in_kev  cve_ctx_n_generic_os_matches  cve_ctx_n_specific_product_matches
+   cve_ctx_service                                                                                                                                                                                                                                                                                                        
+   dns              957971        0.0002                129                       True               0                 0.0000                   False                            NaN             False                       NaN                   False                             0                                 299
+   other            664706        0.2330                  0                      False               0                    NaN                   False                            NaN             False                       NaN                   False                             0                                   0
+   http             617823        0.6188                910                       True              19                 0.0209                    True                            NaN             False                    0.2043                   False                             0                                1441
+   https            504466        0.0005                456                       True               8                 0.0175                    True                            NaN             False                    0.2043                   False                             0                                 805
+   ntp               23880        0.0000                 67                       True               9                 0.1343                    True                            NaN             False                    0.0352                   False                             0                                 110
+   ssh               16921        0.3629                 90                       True               0                 0.0000                   False                            NaN             False                       NaN                   False                             0                                 137
+   ftp               13502        0.6057                 50                       True               1                 0.0200                    True                            NaN             False                    0.0100                   False                             0                                  77
+   netbios            9525        0.0000               2366                       True             205                 0.0866                    True                            NaN             False                    0.8272                   False                         10321                                 216
+   smb                4964        0.0757               2366                       True             205                 0.0866                    True                            NaN             False                    0.8272                   False                         10321                                 216
+   ldap               4679        0.0338                 38                       True               1                 0.0263                    True                            NaN             False                    0.0145                   False                             0                                  75
+   http-alt           2771        0.5106                420                       True               9                 0.0214                    True                            NaN             False                    0.2043                   False                             0                                 780
+   msrpc              1360        0.1176               2255                       True             203                 0.0900                    True                            NaN             False                    0.8272                   False                         10321                                   0
+   quic                861        0.0000                  0                      False               0                    NaN                   False                            NaN             False                       NaN                   False                             0                                   0
+   mdns                697        0.0000                 11                       True               1                 0.0909                    True                            NaN             False                    0.0258                   False                             0                                  27
+   smtp                439        0.7244                180                       True              10                 0.0556                    True                            NaN             False                    0.4938                   False                             0                                 400
+   postgresql          228        0.7018                 96                       True               3                 0.0312                    True                            NaN             False                    0.0227                   False                             0                                 210
+   nfs                 227        0.7004               3150                       True             292                 0.0927                    True                            NaN             False                    0.8272                   False                             0                               19317
+   mssql               226        0.7080                 83                       True               0                 0.0000                   False                            NaN             False                       NaN                   False                             0                                 110
+   rdp                 225        0.7022                  4                       True               0                 0.0000                   False                            NaN             False                       NaN                   False                             0                                  36
+   syslog              224        0.7098                 12                       True               0                 0.0000                   False                            NaN             False                       NaN                   False                             0                                  26
+   snmp                224        0.7054               2275                       True             203                 0.0892                    True                            NaN             False                    0.8272                   False                         10321                                  35
+   mysql               222        0.7117                534                       True              41                 0.0768                    True                            NaN             False                    0.1062                   False                             0                                1434
+   pop3                221        0.7240                127                       True               9                 0.0709                    True                            NaN             False                    0.4938                   False                             0                                 330
+   rpcbind             221        0.7240                  2                       True               1                 0.5000                    True                            NaN             False                    0.6884                   False                             0                                   4
+   pop3s               221        0.7240                127                       True               9                 0.0709                    True                            NaN             False                    0.4938                   False                             0                                 330
+   imaps               220        0.7227                127                       True               9                 0.0709                    True                            NaN             False                    0.4938                   False                             0                                 330
+   ftp-data            219        0.7215                 50                       True               1                 0.0200                    True                            NaN             False                    0.0100                   False                             0                                  77
+   telnet              218        0.7339                 10                       True               0                 0.0000                   False                            NaN             False                       NaN                   False                             0                                  49
+   imap                216        0.7361                127                       True               9                 0.0709                    True                            NaN             False                    0.4938                   False                             0                                 330
+   max distinct values within a service: cve_ctx_pool_size=1, cve_ctx_context_available=1, cve_ctx_n_epss=1, cve_ctx_epss_coverage=1, cve_ctx_epss_available=1, cve_ctx_epss_is_retrospective=1, cve_ctx_use_epss=1, cve_ctx_service_max_epss=1, cve_ctx_service_in_kev=1, cve_ctx_n_generic_os_matches=1, cve_ctx_n_specific_product_matches=1
+
+A5. Same service, two snapshot dates (UNSW-NB15 2015-01-22 vs CIC-IDS2017 2017-07-03):
+    identical values at both dates suggest that the CVE pool / EPSS were NOT restricted to the snapshot date
+                           UNSW-NB15                                                                     CIC-IDS2017                                                              
+                   cve_ctx_pool_size cve_ctx_n_epss cve_ctx_service_max_epss cve_ctx_epss_coverage cve_ctx_pool_size cve_ctx_n_epss cve_ctx_service_max_epss cve_ctx_epss_coverage
+   cve_ctx_service                                                                                                                                                                
+   dns                           106              0                      NaN                   0.0               129              0                      NaN                0.0000
+   ftp                            46              0                      NaN                   0.0                50              1                   0.0100                0.0200
+   http                          656              0                      NaN                   0.0               910             19                   0.2043                0.0209
+   http-alt                      372              0                      NaN                   0.0               420              9                   0.2043                0.0214
+   https                         365              0                      NaN                   0.0               456              8                   0.2043                0.0175
+   imap                           98              0                      NaN                   0.0               127              9                   0.4938                0.0709
+   imaps                          98              0                      NaN                   0.0               127              9                   0.4938                0.0709
+   ldap                           32              0                      NaN                   0.0                38              1                   0.0145                0.0263
+   mdns                           10              0                      NaN                   0.0                11              1                   0.0258                0.0909
+   msrpc                         963              0                      NaN                   0.0              2255            203                   0.8272                0.0900
+   mssql                          74              0                      NaN                   0.0                83              0                      NaN                0.0000
+   mysql                         316              0                      NaN                   0.0               534             41                   0.1062                0.0768
+   netbios                      1052              0                      NaN                   0.0              2366            205                   0.8272                0.0866
+   nfs                          1822              0                      NaN                   0.0              3150            292                   0.8272                0.0927
+   ntp                            15              0                      NaN                   0.0                67              9                   0.0352                0.1343
+   other                           0              0                      NaN                   NaN                 0              0                      NaN                   NaN
+   pop3                           98              0                      NaN                   0.0               127              9                   0.4938                0.0709
+   postgresql                     83              0                      NaN                   0.0                96              3                   0.0227                0.0312
+   rdp                             4              0                      NaN                   0.0                 4              0                      NaN                0.0000
+   rpcbind                         0              0                      NaN                   NaN                 2              1                   0.6884                0.5000
+   smb                          1052              0                      NaN                   0.0              2366            205                   0.8272                0.0866
+   smtp                          149              0                      NaN                   0.0               180             10                   0.4938                0.0556
+   snmp                          981              0                      NaN                   0.0              2275            203                   0.8272                0.0892
+   ssh                            72              0                      NaN                   0.0                90              0                      NaN                0.0000
+   syslog                         12              0                      NaN                   0.0                12              0                      NaN                0.0000
+   telnet                          6              0                      NaN                   0.0                10              0                      NaN                0.0000
+   cve_ctx_pool_size            identical in 3/26 common services
+   cve_ctx_n_epss               identical in 7/26 common services
+   cve_ctx_service_max_epss     identical in 7/26 common services
+   cve_ctx_epss_coverage        identical in 7/26 common services
+
+====================================================================================================
+B. UNSW-NB15: PORT -> SERVICE -> CVE MAPPING (reviewer 3.3)
+====================================================================================================
+flows = 2,059,418; distinct (protocol, port) pairs = 111,351; services = 28
+CTI context available: all 42.12% | benign 41.23% | attack 59.64%
+(protocol, port) pairs mapped to more than one service: 0  (0 = deterministic mapping)
+top 25 (protocol/port -> service) pairs by flow count, for manual checking:
+         pp     svc  flows  attack_share  ctx  pool_size
+     udp/53     dns 402765        0.0504  1.0        106
+     tcp/80    http 218420        0.0877  1.0        656
+   tcp/6881   other 121085        0.0000  0.0          0
+   tcp/5190   other 116145        0.0003  0.0          0
+    udp/111 rpcbind  87302        0.0549  0.0          0
+     tcp/25    smtp  86026        0.0597  1.0        149
+     tcp/22     ssh  49437        0.0004  1.0         72
+    tcp/143    imap  49164        0.0358  1.0         98
+     tcp/21     ftp  46446        0.0449  1.0         46
+    tcp/179   other  18623        0.2932  0.0          0
+    udp/520   other   8530        0.3920  0.0          0
+      arp/0     arp   6658        0.0000  0.0          0
+    tcp/445     smb   5948        0.8290  1.0       1052
+     unas/0   other   4765        1.0000  0.0          0
+    tcp/111 rpcbind   4747        0.9954  0.0          0
+     ospf/0   other   3964        0.2505  0.0          0
+    udp/514  syslog   3511        0.5189  1.0         12
+   tcp/1723   other   3276        0.4695  0.0          0
+    tcp/860   other   2344        0.0000  0.0          0
+    tcp/110    pop3   1627        0.9975  1.0         98
+   tcp/8089   other   1426        0.0000  0.0          0
+    tcp/135   msrpc   1395        0.4401  1.0        963
+   tcp/3260   other    990        0.0000  0.0          0
+   tcp/3306   mysql    958        0.4259  1.0        316
+   udp/5060   other    621        0.9887  0.0          0
+CTI context availability by class:
+                     flows  available
+   cls                               
+   Normal          1959775     0.4123
+   Exploits          27599     0.7894
+   Generic           25378     0.8833
+   Fuzzers           21795     0.4279
+   Reconnaissance    13357     0.1724
+   DoS                5665     0.5117
+   Analysis           2184     0.2088
+   Backdoor           1684     0.0457
+   Shellcode          1511     0.0000
+   Backdoors           299     0.0435
+   Worms               171     0.8772
+
+====================================================================================================
+B. CIC-IDS2017: PORT -> SERVICE -> CVE MAPPING (reviewer 3.3)
+====================================================================================================
+flows = 2,827,677; distinct (protocol, port) pairs = 54,471; services = 29
+CTI context available: all 76.46% | benign 77.51% | attack 72.17%
+(protocol, port) pairs mapped to more than one service: 0  (0 = deterministic mapping)
+top 25 (protocol/port -> service) pairs by flow count, for manual checking:
+          pp      svc  flows  attack_share  ctx  pool_size
+      udp/53      dns 957738        0.0000  1.0        129
+      tcp/80     http 617823        0.6188  1.0        910
+     tcp/443    https 504466        0.0005  1.0        456
+     udp/123      ntp  23880        0.0000  1.0         67
+      tcp/22      ssh  16921        0.3629  1.0         90
+      tcp/21      ftp  13502        0.6057  1.0         50
+     udp/137  netbios   7913        0.0000  1.0       2366
+     tcp/389     ldap   4679        0.0338  1.0         38
+     tcp/465    other   3817        0.0419  0.0          0
+      tcp/88    other   3104        0.0512  0.0          0
+     tcp/139      smb   2853        0.0691  1.0       2366
+    tcp/8080 http-alt   2771        0.5106  1.0        420
+    tcp/3268    other   2567        0.0623  0.0          0
+      udp/88    other   2475        0.0000  0.0          0
+     tcp/445      smb   2111        0.0848  1.0       2366
+     udp/389    other   1700        0.0000  0.0          0
+     other/0    other   1696        0.0035  0.0          0
+     udp/138  netbios   1612        0.0000  1.0       2366
+     tcp/135    msrpc   1360        0.1176  1.0       2255
+     udp/443     quic    861        0.0000  0.0          0
+   tcp/49666    other    785        0.0000  0.0          0
+    udp/5353     mdns    692        0.0000  1.0         11
+    udp/5355    other    384        0.0000  0.0          0
+     tcp/444    other    361        0.7091  0.0          0
+    tcp/1042    other    347        0.4582  0.0          0
+CTI context availability by class:
+                                 flows  available
+   cls                                           
+   BENIGN                      2271122     0.7751
+   DoS Hulk                     230123     1.0000
+   PortScan                     158804     0.0293
+   DDoS                         128025     1.0000
+   DoS GoldenEye                 10293     1.0000
+   FTP-Patator                    7935     1.0000
+   SSH-Patator                    5897     1.0000
+   DoS slowloris                  5796     1.0000
+   DoS Slowhttptest               5499     1.0000
+   Bot                            1956     0.6421
+   Web Attack – Brute Force       1507     1.0000
+   Web Attack – XSS                652     1.0000
+   Infiltration                     36     0.0000
+   Web Attack – Sql Injection       21     1.0000
+   Heartbleed                       11     0.0000
+
+====================================================================================================
+C. UNSW-NB15: BASE MODELS (T=500, frozen configuration, seed 42) — port and CTI-availability controls
+====================================================================================================
+   F0    AP=0.982439   (verified against the paper in section 0)
+   F1    AP=0.983854   (verified against the paper in section 0)
+   Pnum  AP=0.985116   (verified against the paper in section 0)
+   Pcat  AP=0.985920   (verified against the paper in section 0)
+   AVAIL AP=0.982776   (F0 + only the information whether CTI context exists: missing-value indicators + context_available flag)
+   F1 − F0      +0.001415  [+0.000841, +0.002120]  p=0.0020
+   F1 − Pnum    -0.001262  [-0.002121, -0.000510]  p=1.0000
+   F1 − Pcat    -0.002066  [-0.002955, -0.001351]  p=1.0000
+   AVAIL − F0   +0.000337  [-0.000078, +0.000789]  p=0.0499
+   Pcat − AVAIL +0.003144  [+0.002243, +0.004298]  p=0.0020
+
+   CTI missingness (reviewer 2.5):
+   cve_ctx_pool_size                      missing: all  0.00%  benign  0.00%  attack  0.00%   distinct missing-states within a service: 1
+   cve_ctx_epss_coverage                  missing: all 57.88%  benign 58.77%  attack 40.36%   distinct missing-states within a service: 1
+   cve_ctx_n_generic_os_matches           missing: all  0.00%  benign  0.00%  attack  0.00%   distinct missing-states within a service: 1
+   cve_ctx_n_specific_product_matches     missing: all  0.00%  benign  0.00%  attack  0.00%   distinct missing-states within a service: 1
+
+====================================================================================================
+D. UNSW-NB15: TRAINING RANDOMNESS (reviewers 1.4, 2.4, 3.4)
+====================================================================================================
+   frozen configuration, F0 with seed 7 vs seed 42: max |difference in scores| = 1.000e+00 (NOT deterministic)
+   stochastic variant (bagging_fraction=0.8, bagging_freq=1, feature_fraction=0.8), seeds [1, 2, 3, 4, 5]:
+               F0        F1      Pnum      Pcat     F1−F0   F1−Pnum   F1−Pcat
+   seed                                                                      
+   1     0.976129  0.983779  0.985656  0.984204  0.007649 -0.001878 -0.000425
+   2     0.982830  0.983897  0.982161  0.971451  0.001067  0.001736  0.012446
+   3     0.949383  0.983353  0.876784  0.985572  0.033970  0.106569 -0.002219
+   4     0.971077  0.979145  0.961027  0.985298  0.008068  0.018118 -0.006153
+   5     0.981237  0.976352  0.985712  0.980651 -0.004885 -0.009360 -0.004299
+   mean ± sd:  F0=+0.972131±0.013527  F1=+0.981305±0.003400  Pnum=+0.958268±0.046694  Pcat=+0.981435±0.005916  F1−F0=+0.009174±0.014847  F1−Pnum=+0.023037±0.047765  F1−Pcat=-0.000130±0.007353
+   seeds with F1−F0 > 0: 4/5;  F1−Pnum > 0: 3/5;  F1−Pcat > 0: 1/5
+
+====================================================================================================
+E. UNSW-NB15: AP PER ATTACK CLASS (class vs benign, T=500) (reviewer 1.2)
+====================================================================================================
+            class  n_test       F0       F1     Pcat     F1−F0   F1−Pcat
+          Generic    6902 0.996734 0.997983 0.998983  0.001250 -0.001000
+         Exploits    6896 0.980883 0.982435 0.989028  0.001552 -0.006593
+          Fuzzers    4972 0.681966 0.708381 0.734010  0.026415 -0.025629
+   Reconnaissance    3448 0.987311 0.998570 0.999296  0.011259 -0.000726
+              DoS    1476 0.950880 0.959836 0.979732  0.008956 -0.019896
+         Backdoor     624 0.967494 0.974883 0.990243  0.007389 -0.015360
+         Analysis     621 0.843715 0.851465 0.861500  0.007749 -0.010035
+        Shellcode     373 0.683678 0.650143 0.966653 -0.033535 -0.316510
+            Worms      42 0.742468 0.763205 0.781455  0.020737 -0.018250
+   (classes with fewer than 50 test flows should be read descriptively only)
+
+====================================================================================================
+F. UNSW-NB15: ALTERNATIVE CHRONOLOGICAL BOUNDARIES (reviewers 1.3, 3.4)
+====================================================================================================
+   split       test span                               hours  attack% absent in train        AP F0     AP F1   AP Pcat
+   0.70/0.85   2015-02-18 08:58:36 – 2015-02-18 12:21:08    3.4    8.21% —                   0.982439  0.983854  0.985920
+              F1 − F0   +0.001415  [+0.000841, +0.002120]  p=0.0020
+              F1 − Pcat -0.002066  [-0.002955, -0.001351]  p=1.0000
+   0.60/0.80   2015-02-18 07:50:36 – 2015-02-18 12:21:08    4.5    8.11% —                   0.978690  0.979903  0.982617
+              F1 − F0   +0.001213  [+0.000559, +0.002037]  p=0.0020
+              F1 − Pcat -0.002715  [-0.003733, -0.001963]  p=1.0000
+   0.80/0.90   2015-02-18 10:05:30 – 2015-02-18 12:21:08    2.3    8.02% —                   0.980062  0.981454  0.983388
+              F1 − F0   +0.001392  [+0.000513, +0.002422]  p=0.0020
+              F1 − Pcat -0.001934  [-0.002844, -0.001208]  p=1.0000
+
+====================================================================================================
+C. CIC-IDS2017: BASE MODELS (T=500, frozen configuration, seed 42) — port and CTI-availability controls
+====================================================================================================
+   F0    AP=0.998869   (verified against the paper in section 0)
+   F1    AP=0.999402   (verified against the paper in section 0)
+   Pnum  AP=0.999489   (verified against the paper in section 0)
+   Pcat  AP=0.999562   (verified against the paper in section 0)
+   AVAIL AP=0.996698   (F0 + only the information whether CTI context exists: missing-value indicators + context_available flag)
+   F1 − F0      +0.000533  [+0.000185, +0.001930]  p=0.0020
+   F1 − Pnum    -0.000086  [-0.000302, +0.000036]  p=0.8962
+   F1 − Pcat    -0.000159  [-0.000482, -0.000032]  p=1.0000
+   AVAIL − F0   -0.002171  [-0.005890, -0.000014]  p=0.9760
+   Pcat − AVAIL +0.002864  [+0.000699, +0.007676]  p=0.0020
+
+   CTI missingness (reviewer 2.5):
+   cve_ctx_pool_size                      missing: all  0.00%  benign  0.00%  attack  0.00%   distinct missing-states within a service: 1
+   cve_ctx_n_epss                         missing: all  0.00%  benign  0.00%  attack  0.00%   distinct missing-states within a service: 1
+   cve_ctx_epss_coverage                  missing: all 23.54%  benign 22.49%  attack 27.83%   distinct missing-states within a service: 1
+   cve_ctx_service_max_epss               missing: all 58.05%  benign 65.14%  attack 29.08%   distinct missing-states within a service: 1
+   cve_ctx_n_generic_os_matches           missing: all  0.00%  benign  0.00%  attack  0.00%   distinct missing-states within a service: 1
+   cve_ctx_n_specific_product_matches     missing: all  0.00%  benign  0.00%  attack  0.00%   distinct missing-states within a service: 1
+
+====================================================================================================
+D. CIC-IDS2017: TRAINING RANDOMNESS (reviewers 1.4, 2.4, 3.4)
+====================================================================================================
+   frozen configuration, F0 with seed 7 vs seed 42: max |difference in scores| = 8.670e-01 (NOT deterministic)
+   stochastic variant (bagging_fraction=0.8, bagging_freq=1, feature_fraction=0.8), seeds [1, 2, 3, 4, 5]:
+               F0        F1      Pnum      Pcat     F1−F0   F1−Pnum   F1−Pcat
+   seed                                                                      
+   1     0.998915  0.999438  0.999453  0.999520  0.000524 -0.000014 -0.000082
+   2     0.998342  0.999502  0.999463  0.999411  0.001160  0.000039  0.000091
+   3     0.998959  0.999430  0.999198  0.999536  0.000470  0.000231 -0.000106
+   4     0.998928  0.999372  0.991479  0.999560  0.000443  0.007893 -0.000188
+   5     0.998561  0.999357  0.998922  0.999533  0.000796  0.000434 -0.000176
+   mean ± sd:  F0=+0.998741±0.000276  F1=+0.999420±0.000058  Pnum=+0.997703±0.003486  Pcat=+0.999512±0.000058  F1−F0=+0.000679±0.000303  F1−Pnum=+0.001717±0.003457  F1−Pcat=-0.000092±0.000112
+   seeds with F1−F0 > 0: 5/5;  F1−Pnum > 0: 4/5;  F1−Pcat > 0: 1/5
+
+====================================================================================================
+E. CIC-IDS2017: AP PER ATTACK CLASS (class vs benign, T=500) (reviewer 1.2)
+====================================================================================================
+                        class  n_test       F0       F1     Pcat     F1−F0   F1−Pcat
+                     PortScan   65400 0.999911 0.999798 0.999833 -0.000112 -0.000034
+                     DoS Hulk   47558 0.997177 0.998654 0.999153  0.001476 -0.000500
+                         DDoS   20450 0.998816 0.999404 0.999475  0.000588 -0.000071
+                DoS GoldenEye    2793 0.985077 0.992322 0.995143  0.007244 -0.002822
+                  FTP-Patator    1234 0.993938 0.995457 0.995499  0.001519 -0.000042
+             DoS Slowhttptest    1204 0.806133 0.985614 0.961207  0.179481  0.024407
+                DoS slowloris     920 0.897455 0.980265 0.973795  0.082810  0.006470
+                  SSH-Patator     904 0.945776 0.977587 0.977085  0.031811  0.000503
+                          Bot     294 0.004667 0.009981 0.015388  0.005314 -0.005407
+     Web Attack – Brute Force     242 0.933652 0.983683 0.983354  0.050032  0.000329
+             Web Attack – XSS     119 0.906840 0.920701 0.923040  0.013861 -0.002339
+                 Infiltration       6 0.001035 0.027313 0.387897  0.026278 -0.360584
+   Web Attack – Sql Injection       5 0.001146 0.013763 0.025385  0.012617 -0.011622
+                   Heartbleed       3 0.000052 0.000253 0.000362  0.000201 -0.000109
+   (classes with fewer than 50 test flows should be read descriptively only)
+
+====================================================================================================
+D2. UNSW-NB15: FROZEN CONFIGURATION, DIFFERENT SEEDS (reviewers 1.4, 2.4, 3.4)
+====================================================================================================
+   Only the random seed changes (it drives LightGBM's sampling of rows used to build the feature histograms);
+   every other setting is the frozen configuration of the paper. Seed 42 = the paper.
+               F0        F1      Pnum      Pcat     F1−F0   F1−Pnum   F1−Pcat
+   seed                                                                      
+   42    0.982439  0.983854  0.985116  0.985920  0.001415 -0.001262 -0.002066
+   1     0.982858  0.983368  0.985150  0.985997  0.000510 -0.001782 -0.002629
+   2     0.982583  0.983435  0.977969  0.983672  0.000852  0.005466 -0.000237
+   3     0.982910  0.983995  0.984672  0.985340  0.001085 -0.000677 -0.001345
+   4     0.927315  0.983655  0.985448  0.986054  0.056340 -0.001793 -0.002399
+   5     0.982510  0.983588  0.985729  0.975168  0.001078 -0.002142  0.008420
+   7     0.982599  0.983334  0.985309  0.986213  0.000735 -0.001975 -0.002879
+   mean ± sd over all 7 seeds:
+      F0       +0.974745 ± 0.020915   min +0.927315   max +0.982910
+      F1       +0.983604 ± 0.000250   min +0.983334   max +0.983995
+      Pnum     +0.984199 ± 0.002766   min +0.977969   max +0.985729
+      Pcat     +0.984052 ± 0.004014   min +0.975168   max +0.986213
+      F1−F0    +0.008859 ± 0.020939   min +0.000510   max +0.056340
+      F1−Pnum  -0.000595 ± 0.002718   min -0.002142   max +0.005466
+      F1−Pcat  -0.000448 ± 0.004012   min -0.002879   max +0.008420
+   seeds with F1−F0 > 0: 7/7;  F1−Pnum > 0: 1/7;  F1−Pcat > 0: 1/7
+
+====================================================================================================
+G. UNSW-NB15: TEST ON THE WHOLE LAST CAPTURE DAY (reviewers 1.3, 3.4)
+====================================================================================================
+   flows per capture day: 2015-01-22: 989,267, 2015-01-23: 33,930, 2015-02-18: 1,036,221
+   train = 1,023,197 flows (before 2015-02-18), test = 1,036,221 flows (2015-02-18 00:23:28 – 2015-02-18 12:21:08, 12.0 h), attack share in test 8.24%
+   attack classes in test but absent from train: Backdoor
+   F0    AP=0.956737
+   F1    AP=0.966716
+   Pnum  AP=0.970310
+   Pcat  AP=0.855173
+   F1 − F0    +0.009979  [+0.007426, +0.012482]  p=0.0020
+   F1 − Pnum  -0.003594  [-0.005244, -0.002003]  p=1.0000
+   F1 − Pcat  +0.111543  [+0.088838, +0.130975]  p=0.0020
+   same, excluding test flows of the classes absent from train (1,684 flows):
+      F1 − F0    ΔAP=+0.010428
+      F1 − Pcat  ΔAP=+0.113257
+
+====================================================================================================
+D2. CIC-IDS2017: FROZEN CONFIGURATION, DIFFERENT SEEDS (reviewers 1.4, 2.4, 3.4)
+====================================================================================================
+   Only the random seed changes (it drives LightGBM's sampling of rows used to build the feature histograms);
+   every other setting is the frozen configuration of the paper. Seed 42 = the paper.
+               F0        F1      Pnum      Pcat     F1−F0   F1−Pnum   F1−Pcat
+   seed                                                                      
+   42    0.998869  0.999402  0.999489  0.999562  0.000533 -0.000086 -0.000159
+   1     0.998801  0.999492  0.999517  0.999599  0.000691 -0.000025 -0.000107
+   2     0.998742  0.999491  0.999561  0.999564  0.000748 -0.000070 -0.000074
+   3     0.998387  0.999473  0.999543  0.999585  0.001086 -0.000071 -0.000112
+   4     0.999001  0.999488  0.999323  0.999542  0.000487  0.000165 -0.000054
+   5     0.998773  0.999492  0.999588  0.999478  0.000719 -0.000096  0.000014
+   7     0.998939  0.999330  0.999505  0.999519  0.000390 -0.000175 -0.000189
+   mean ± sd over all 7 seeds:
+      F0       +0.998788 ± 0.000199   min +0.998387   max +0.999001
+      F1       +0.999453 ± 0.000063   min +0.999330   max +0.999492
+      Pnum     +0.999504 ± 0.000087   min +0.999323   max +0.999588
+      Pcat     +0.999550 ± 0.000041   min +0.999478   max +0.999599
+      F1−F0    +0.000665 ± 0.000228   min +0.000390   max +0.001086
+      F1−Pnum  -0.000051 ± 0.000106   min -0.000175   max +0.000165
+      F1−Pcat  -0.000097 ± 0.000068   min -0.000189   max +0.000014
+   seeds with F1−F0 > 0: 7/7;  F1−Pnum > 0: 1/7;  F1−Pcat > 0: 1/7
+
+====================================================================================================
+H. CIC-IDS2017: F1 WITHOUT THE RETROSPECTIVE EPSS FIELDS (reviewers 2.2, 3.2)
+====================================================================================================
+   For the 2017-07-03 snapshot the enrichment took EPSS from the earliest available file (2021-04-14),
+   i.e. retrospectively. This model drops every EPSS-derived field from F1 and keeps the rest.
+   dropped: ['cve_ctx_n_epss', 'cve_ctx_epss_coverage', 'cve_ctx_service_max_epss']
+   F1noEPSS AP=0.999455   (F1 0.999402)
+   F1 − F1noEPSS    -0.000053  [-0.000295, +0.000246]  p=0.6926
+   F1noEPSS − F0    +0.000586  [+0.000179, +0.001967]  p=0.0020
+   F1noEPSS − Pcat  -0.000106  [-0.000522, -0.000032]  p=0.9980
+
+Run time: 76.8 min;  ROUNDS=500, N_BOOT=500, SEEDS_STOCH=[1, 2, 3, 4, 5]
